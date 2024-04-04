@@ -48,7 +48,6 @@ class MintbaseDocumentLoader(BaseLoader):
         contract_address: str,
         blockchainType: BlockchainType = BlockchainType.NEAR_MAINNET,
         api_key: str = "",
-        startToken: str = "",
         get_all_tokens: bool = False,
         max_execution_time: Optional[int] = None,
     ):
@@ -58,14 +57,12 @@ class MintbaseDocumentLoader(BaseLoader):
             contract_address: The address of the smart contract.
             blockchainType: The blockchain type.
             api_key: The Mintbase API key.
-            startToken: The start token for pagination.
             get_all_tokens: Whether to get all tokens on the contract.
             max_execution_time: The maximum execution time (sec).
         """
         self.contract_address = contract_address
         self.blockchainType = blockchainType.value
         self.api_key = os.environ.get("MB_API_KEY") or api_key
-        self.startToken = startToken
         self.get_all_tokens = get_all_tokens
         self.max_execution_time = max_execution_time
 
@@ -77,8 +74,6 @@ class MintbaseDocumentLoader(BaseLoader):
 
     def load(self) -> List[Document]:
         result = []
-
-        current_start_token = self.startToken
 
         start_time = time.time()
 
@@ -179,8 +174,6 @@ class MintbaseDocumentLoader(BaseLoader):
             if not self.get_all_tokens:
                 break
 
-            # get the start token for the next API call from the last item in array
-            current_start_token = result[-1].metadata["tokenId"]
 
             if (
                 self.max_execution_time is not None
