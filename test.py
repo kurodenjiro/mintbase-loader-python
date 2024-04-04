@@ -3,7 +3,7 @@ from mintbase import (
     BlockchainType,
 )
 
-contractAddress = "nft.yearofchef.near"  # Bored Ape Yacht Club contract address
+contractAddress = "nft.yearofchef.near"  # Year of chef contract address
 
 blockchainType = BlockchainType.NEAR_MAINNET  # default value, optional parameter
 
